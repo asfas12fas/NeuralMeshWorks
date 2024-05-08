@@ -1,22 +1,20 @@
-function mergeSort(arr) {
-  if (arr.length <= 1) return arr;
-  const mid = Math.floor(arr.length / 2);
-  const left = mergeSort(arr.slice(0, mid));
-  const right = mergeSort(arr.slice(mid));
-  return merge(left, right);
-}
-function merge(left, right) {
-  let result = [];
-  let leftIndex = 0;
-  let rightIndex = 0;
-  while (leftIndex < left.length && rightIndex < right.length) {
-    if (left[leftIndex] < right[rightIndex]) {
-      result.push(left[leftIndex]);
-      leftIndex++;
-    } else {
-      result.push(right[rightIndex]);
-      rightIndex++;
+function findCircleNum(M) {
+  if (!M || M.length === 0) return 0;
+  const visited = new Array(M.length).fill(false);
+  let count = 0;
+  for (let i = 0; i < M.length; i++) {
+    if (!visited[i]) {
+      dfs(M, i, visited);
+      count++;
     }
   }
-  return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+  return count;
+}
+function dfs(M, i, visited) {
+  visited[i] = true;
+  for (let j = 0; j < M.length; j++) {
+    if (M[i][j] === 1 && !visited[j]) {
+      dfs(M, j, visited);
+    }
+  }
 }
