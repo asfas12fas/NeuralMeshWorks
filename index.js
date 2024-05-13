@@ -1,13 +1,16 @@
-function canPartition(nums) {
-  const sum = nums.reduce((acc, val) => acc + val, 0);
-  if (sum % 2 !== 0) return false;
-  const target = sum / 2;
-  const dp = new Array(target + 1).fill(false);
-  dp[0] = true;
-  for (const num of nums) {
-    for (let i = target; i >= num; i--) {
-      dp[i] = dp[i] || dp[i - num];
+const countingSort = (arr) => {
+  const min = Math.min(...arr);
+  const max = Math.max(...arr);
+  const count = Array(max - min + 1).fill(0);
+  for (let num of arr) {
+    count[num - min]++;
+  }
+  let sortedIndex = 0;
+  for (let i = min; i <= max; i++) {
+    while (count[i - min] > 0) {
+      arr[sortedIndex++] = i;
+      count[i - min]--;
     }
   }
-  return dp[target];
-}
+  return arr;
+};
